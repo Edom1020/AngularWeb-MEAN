@@ -1,0 +1,40 @@
+<!-- Tu propio diseño con Bootstrap -->
+<div class="container mt-4">
+  <div class="d-flex justify-content-between align-items-center mb-3">
+    <h2 class="titulo">Productos</h2>
+    <button class="btn btn-primary" routerLink="/crear-producto">+ Nuevo Producto</button>
+  </div>
+
+  <div class="table-responsive rounded-3 overflow-hidden shadow">
+    <table class="table table-hover mb-0">
+      <thead class="table-dark">
+        <tr>
+          <th>#</th>
+          <th>Nombre</th>
+          <th>Categoría</th>
+          <th>Ubicación</th>
+          <th>Precio</th>
+          <th>Acciones</th>
+        </tr>
+      </thead>
+
+      <tbody>
+        <tr>
+          <td>1</td>
+          <td>Coca Cola</td>
+          <td>Bebida</td>
+          <td>Buenos Aires</td>
+          <td>$2</td>
+          <td>
+            <button class="btn btn-warning btn-sm me-2">
+              <img src="/images/edit.png" alt="Editar" class="img-fluid" />
+            </button>
+            <button class="btn btn-danger btn-sm">
+              <img src="/images/delete.png" alt="Eliminar" class="img-fluid" />
+            </button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
