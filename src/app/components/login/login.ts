@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { FormGroup, FormBuilder, Validators, ReactiveFormsModule, AbstractControl, ValidationErrors } from '@angular/forms';
 import { NgIf, NgClass } from '@angular/common';
 import { Router } from '@angular/router';
+import { ProductoService } from '../../services/producto';
 
 @Component({
   selector: 'app-login',
@@ -25,7 +26,7 @@ export class LoginComponent {
     hasSpecialChar: false,
   };
 
-  constructor(private fb: FormBuilder, private router: Router) {
+  constructor(private fb: FormBuilder, private router: Router, private productoService: ProductoService) {
     this.loginForm = this.fb.group({
       email: ['', [Validators.required, Validators.email]],
       password: ['', [Validators.required, Validators.minLength(6)]],
@@ -95,21 +96,30 @@ export class LoginComponent {
 
   login() {
     if (this.loginForm.valid) {
-      const usuario = this.loginForm.value;
-      console.log('Login:', usuario);
-      alert(`¡Bienvenido ${usuario.email}!`);
-      // Aquí irían las llamadas a la API
-      this.router.navigate(['/']);
+      this.productoService.login(this.loginForm.value).subscribe({
+        next: () => {
+          // ✅ Cookie HttpOnly enviada automáticamente
+          this.router.navigate(['/']);
+        },
+        error: () => {
+          alert('Credenciales incorrectas');
+        }
+      });
     }
   }
 
   register() {
-    if (this.registerForm.valid) {
-      const usuario = this.registerForm.value;
-      console.log('Registro:', usuario);
-      alert(`¡Cuenta creada exitosamente! Bienvenido ${usuario.nombre}`);
-      // Aquí irían las llamadas a la API
-      this.router.navigate(['/']);
-    }
+  if (this.registerForm.valid) {
+    const { confirmPassword, ...datos } = this.registerForm.value;
+    this.productoService.register(datos).subscribe({
+      next: () => {
+        alert('¡Cuenta creada! Ahora inicia sesión.');
+        this.toggleTab();
+      },
+      error: () => {
+        alert('Error al registrarse');
+      }
+    });
   }
+}
 }

@@ -1,10 +1,15 @@
-import { Component } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { FormGroup, FormBuilder, Validators, ReactiveFormsModule } from '@angular/forms';
 import { NgIf, NgFor } from '@angular/common';
 
+//Nuevos imports
+import { ProductoService } from '../../services/producto';
+import { ToastrService } from 'ngx-toastr';
+
 interface Producto {
-  id: number;
+  _id?: string;
+  id?: number;
   nombre: string;
   categoria: string;
   ubicacion: string;
@@ -17,16 +22,32 @@ interface Producto {
   templateUrl: './listar-productos.html',
   styleUrl: './listar-productos.css',
 })
-export class ListarProductosComponent {
-  productos: Producto[] = [
-    { id: 1, nombre: 'Coca Cola', categoria: 'Bebida', ubicacion: 'Buenos Aires', precio: 2 },
-    { id: 2, nombre: 'Laptop HP', categoria: 'Computadores', ubicacion: 'Colombia', precio: 2500 },
-  ];
+
+// Componente para listar, editar y eliminar productos
+export class ListarProductosComponent implements OnInit {
+  productos: Producto[] = [];
+  private productoService = inject(ProductoService);
+  private toastr = inject(ToastrService);
 
   editForm: FormGroup;
   showEditModal = false;
   showDeleteModal = false;
   productoSeleccionado: Producto | null = null;
+
+  ngOnInit() {
+  this.cargarProductos();
+  }
+
+  cargarProductos() {
+  this.productoService.getProductos().subscribe({
+    next: (data: any) => {
+      this.productos = data;
+    },
+    error: () => {
+      this.toastr.error('Error al cargar productos', 'Error');
+    }
+  });
+}
 
   constructor(private fb: FormBuilder) {
     this.editForm = this.fb.group({
@@ -55,19 +76,22 @@ export class ListarProductosComponent {
   }
 
   guardarEdicion() {
-    if (this.editForm.valid && this.productoSeleccionado) {
-      const index = this.productos.findIndex(p => p.id === this.productoSeleccionado?.id);
-      if (index !== -1) {
-        this.productos[index] = {
-          ...this.productoSeleccionado,
-          ...this.editForm.value
-        };
-        console.log('Producto actualizado:', this.productos[index]);
-        alert('Producto actualizado exitosamente');
+  if (this.editForm.valid && this.productoSeleccionado) {
+    this.productoService.actualizarProducto(
+      this.productoSeleccionado._id!, 
+      this.editForm.value
+    ).subscribe({
+      next: () => {
+        this.toastr.success('Producto actualizado', 'Éxito');
+        this.cargarProductos();
         this.cerrarEditModal();
+      },
+      error: () => {
+        this.toastr.error('Error al actualizar', 'Error');
       }
-    }
+    });
   }
+}
 
   abrirDeleteModal(producto: Producto) {
     this.productoSeleccionado = producto;
@@ -80,11 +104,17 @@ export class ListarProductosComponent {
   }
 
   confirmarEliminar() {
-    if (this.productoSeleccionado) {
-      this.productos = this.productos.filter(p => p.id !== this.productoSeleccionado?.id);
-      console.log('Producto eliminado:', this.productoSeleccionado);
-      alert('Producto eliminado exitosamente');
-      this.cerrarDeleteModal();
-    }
+  if (this.productoSeleccionado) {
+    this.productoService.eliminarProducto(this.productoSeleccionado._id!).subscribe({
+      next: () => {
+        this.toastr.success('Producto eliminado', 'Éxito');
+        this.cargarProductos();
+        this.cerrarDeleteModal();
+      },
+      error: () => {
+        this.toastr.error('Error al eliminar', 'Error');
+      }
+    });
   }
+}
 }
