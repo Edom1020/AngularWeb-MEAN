@@ -34,10 +34,18 @@ exports.registro = catchAsync(async (req, res, next) => {
     { expiresIn: '7d' }
   );
 
+  // Configurar cookie HttpOnly
+  res.cookie('token', token, {
+    httpOnly: true,        // No accesible desde JavaScript (protege contra XSS)
+    secure: process.env.NODE_ENV === 'production', // Solo HTTPS en producción
+    sameSite: 'Lax',      // Protección contra CSRF
+    maxAge: 7 * 24 * 60 * 60 * 1000, // 7 días en milisegundos
+    path: '/'             // Disponible en toda la aplicación
+  });
+
   res.status(201).json({
     ok: true,
     mensaje: 'Usuario registrado exitosamente',
-    token,
     usuario: {
       id: nuevoUsuario._id,
       nombreCompleto: nuevoUsuario.nombreCompleto,
@@ -74,10 +82,18 @@ exports.login = catchAsync(async (req, res, next) => {
     { expiresIn: '7d' }
   );
 
+  // Configurar cookie HttpOnly
+  res.cookie('token', token, {
+    httpOnly: true,        // No accesible desde JavaScript (protege contra XSS)
+    secure: process.env.NODE_ENV === 'production', // Solo HTTPS en producción
+    sameSite: 'Lax',      // Protección contra CSRF
+    maxAge: 7 * 24 * 60 * 60 * 1000, // 7 días en milisegundos
+    path: '/'             // Disponible en toda la aplicación
+  });
+
   res.status(200).json({
     ok: true,
     mensaje: 'Login exitoso',
-    token,
     usuario: {
       id: usuario._id,
       nombreCompleto: usuario.nombreCompleto,
@@ -128,5 +144,23 @@ exports.obtenerPerfil = catchAsync(async (req, res, next) => {
       correo: usuario.correo,
       fechaRegistro: usuario.fechaRegistro
     }
+  });
+});
+
+// ─────────────────────────────────────────────
+// LOGOUT - LIMPIAR COOKIE HTTPONLY
+// ─────────────────────────────────────────────
+exports.logout = catchAsync(async (req, res, next) => {
+  // Limpiar la cookie del token
+  res.clearCookie('token', {
+    httpOnly: true,
+    secure: process.env.NODE_ENV === 'production',
+    sameSite: 'Lax',
+    path: '/'
+  });
+
+  res.status(200).json({
+    ok: true,
+    mensaje: 'Sesión cerrada exitosamente'
   });
 });

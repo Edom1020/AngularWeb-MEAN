@@ -32,4 +32,9 @@ router.get('/check-email', checkEmailLimiter, validarCheckEmail, handleValidatio
 // Headers: { Authorization: "Bearer token_aqui" }
 router.get('/perfil', authMiddleware.verificarToken, authController.obtenerPerfil);
 
+// Logout - Limpiar cookie HttpOnly
+// POST /api/auth/logout
+// Headers: { Authorization: "Bearer token_aqui" } (opcional, la cookie es suficiente)
+router.post('/logout', authMiddleware.verificarToken, authController.logout);
+
 module.exports = router;

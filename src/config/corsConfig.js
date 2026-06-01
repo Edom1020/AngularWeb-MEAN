@@ -25,10 +25,11 @@ const corsOptions = {
       callback(new Error('No permitido por CORS'));
     }
   },
-  credentials: true, // Permitir cookies
+  credentials: true, // IMPORTANTE: permitir cookies (HttpOnly)
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'OPTIONS'],
-  allowedHeaders: ['Content-Type', 'Authorization'],
-  maxAge: 86400 // Cache de preflight por 24 horas
+  allowedHeaders: ['Content-Type', 'Authorization', 'X-XSRF-TOKEN'],
+  exposedHeaders: ['X-XSRF-TOKEN'], // Exponer headers para el cliente
+  maxAge: 3600 // Cache de preflight por 1 hora
 };
 
 module.exports = corsOptions;
