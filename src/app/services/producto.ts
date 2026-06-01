@@ -7,42 +7,40 @@ export class ProductoService {
   
   private http = inject(HttpClient);
   private apiUrl = 'https://techstore-backend-9urc.onrender.com/api';
-  
-  // ✅ Configurar withCredentials para enviar HttpOnly Cookies automáticamente
-  private httpOptions = { withCredentials: true };
 
-  // Obtener todos los productos
+  private getAuthHeaders() {
+    const token = localStorage.getItem('token');
+    return {
+      withCredentials: true,
+      headers: { Authorization: `Bearer ${token}` }
+    };
+  }
+
   getProductos() {
-    return this.http.get(`${this.apiUrl}/productos`, this.httpOptions);
+    return this.http.get(`${this.apiUrl}/productos`, this.getAuthHeaders());
   }
 
-  // Obtener un producto por ID
   getProducto(id: string) {
-    return this.http.get(`${this.apiUrl}/productos/${id}`, this.httpOptions);
+    return this.http.get(`${this.apiUrl}/productos/${id}`, this.getAuthHeaders());
   }
 
-  // Crear producto (HttpOnly Cookie enviada automáticamente)
   crearProducto(producto: any) {
-    return this.http.post(`${this.apiUrl}/productos`, producto, this.httpOptions);
+    return this.http.post(`${this.apiUrl}/productos`, producto, this.getAuthHeaders());
   }
 
-  // Actualizar producto (HttpOnly Cookie enviada automáticamente)
   actualizarProducto(id: string, producto: any) {
-    return this.http.put(`${this.apiUrl}/productos/${id}`, producto, this.httpOptions);
+    return this.http.put(`${this.apiUrl}/productos/${id}`, producto, this.getAuthHeaders());
   }
 
-  // Eliminar producto (HttpOnly Cookie enviada automáticamente)
   eliminarProducto(id: string) {
-    return this.http.delete(`${this.apiUrl}/productos/${id}`, this.httpOptions);
+    return this.http.delete(`${this.apiUrl}/productos/${id}`, this.getAuthHeaders());
   }
 
-  // Login - Establece la HttpOnly Cookie
   login(credenciales: any) {
-    return this.http.post(`${this.apiUrl}/auth/login`, credenciales, this.httpOptions);
+    return this.http.post(`${this.apiUrl}/auth/login`, credenciales, { withCredentials: true });
   }
 
-  // Register - Establece la HttpOnly Cookie
   register(datos: any) {
-    return this.http.post(`${this.apiUrl}/auth/registro`, datos, this.httpOptions);
+    return this.http.post(`${this.apiUrl}/auth/registro`, datos, { withCredentials: true });
   }
 }
