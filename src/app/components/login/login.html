@@ -1,0 +1,177 @@
+<!-- Pantalla de Login y Registro -->
+<div class="login-container">
+  <div class="login-card">
+    <!-- Tab de Login -->
+    <div [ngClass]="{ active: !isRegister }" class="tab-content">
+      <h2 class="titulo-login">🔐 Iniciar Sesión</h2>
+      <form [formGroup]="loginForm" (ngSubmit)="login()">
+        <div class="mb-3">
+          <label for="login-email" class="form-label fw-bold">Correo Electrónico</label>
+          <input
+            type="email"
+            class="form-control form-control-lg"
+            id="login-email"
+            placeholder="usuario@ejemplo.com"
+            formControlName="email"
+          />
+          <div
+            class="text-danger"
+            *ngIf="loginForm.get('email')?.invalid && loginForm.get('email')?.touched"
+          >
+            Ingresa un correo válido
+          </div>
+        </div>
+
+        <div class="mb-4">
+          <label for="login-password" class="form-label fw-bold">Contraseña</label>
+          <div class="password-input-group">
+            <input
+              [type]="showLoginPassword ? 'text' : 'password'"
+              class="form-control form-control-lg"
+              id="login-password"
+              placeholder="••••••••"
+              formControlName="password"
+            />
+            <img
+              [src]="showLoginPassword ? '/login/eyeicon.png' : '/login/eyeclosedicon.png'"
+              alt="Toggle password"
+              class="eye-icon"
+              (click)="toggleLoginPassword()"
+            />
+          </div>
+          <div
+            class="text-danger"
+            *ngIf="loginForm.get('password')?.invalid && loginForm.get('password')?.touched"
+          >
+            Debes ingresar una contraseña
+          </div>
+        </div>
+
+        <button
+          type="submit"
+          class="btn btn-success btn-lg w-100 mb-3"
+          [disabled]="!loginForm.valid"
+        >
+          Entrar
+        </button>
+
+        <p class="text-center">
+          ¿No tienes cuenta?
+          <a href="javascript:void(0)" (click)="toggleTab()" class="link-primary fw-bold">
+            Regístrate aquí
+          </a>
+        </p>
+      </form>
+    </div>
+
+    <!-- Tab de Registro -->
+    <div [ngClass]="{ active: isRegister }" class="tab-content">
+      <h2 class="titulo-login">📝 Crear Cuenta</h2>
+      <form [formGroup]="registerForm" (ngSubmit)="register()">
+        <div class="mb-3">
+          <label for="register-name" class="form-label fw-bold">Nombre Completo</label>
+          <input
+            type="text"
+            class="form-control form-control-lg"
+            id="register-name"
+            placeholder="Tu nombre"
+            formControlName="nombre"
+          />
+          <div
+            class="text-danger"
+            *ngIf="registerForm.get('nombre')?.invalid && registerForm.get('nombre')?.touched"
+          >
+            Debes llenar este campo
+          </div>
+        </div>
+
+        <div class="mb-3">
+          <label for="register-email" class="form-label fw-bold">Correo Electrónico</label>
+          <input
+            type="email"
+            class="form-control form-control-lg"
+            id="register-email"
+            placeholder="usuario@ejemplo.com"
+            formControlName="email"
+          />
+          <div
+            class="text-danger"
+            *ngIf="registerForm.get('email')?.invalid && registerForm.get('email')?.touched"
+          >
+            Ingresa un correo válido
+          </div>
+        </div>
+
+        <div class="mb-3">
+          <label for="register-password" class="form-label fw-bold">Contraseña</label>
+          <div class="password-input-group">
+            <input
+              [type]="showRegisterPassword ? 'text' : 'password'"
+              class="form-control form-control-lg"
+              id="register-password"
+              placeholder="••••••••"
+              formControlName="password"
+            />
+            <img
+              [src]="showRegisterPassword ? '/login/eyeicon.png' : '/login/eyeclosedicon.png'"
+              alt="Toggle password"
+              class="eye-icon"
+              (click)="toggleRegisterPassword()"
+            />
+          </div>
+          <div
+            class="text-danger"
+            *ngIf="registerForm.get('password')?.invalid && registerForm.get('password')?.touched"
+          >
+            La contraseña debe tener al menos 6 caracteres
+          </div>
+        </div>
+
+        <div class="mb-4">
+          <label for="register-confirm-password" class="form-label fw-bold"
+            >Confirmar Contraseña</label
+          >
+          <div class="password-input-group">
+            <input
+              [type]="showConfirmPassword ? 'text' : 'password'"
+              class="form-control form-control-lg"
+              id="register-confirm-password"
+              placeholder="••••••••"
+              formControlName="confirmPassword"
+            />
+            <img
+              [src]="showConfirmPassword ? '/login/eyeicon.png' : '/login/eyeclosedicon.png'"
+              alt="Toggle password"
+              class="eye-icon"
+              (click)="toggleConfirmPassword()"
+            />
+          </div>
+          <div
+            class="text-danger"
+            *ngIf="
+              registerForm.get('confirmPassword')?.invalid &&
+              registerForm.get('confirmPassword')?.touched
+            "
+          >
+            Las contraseñas no coinciden
+          </div>
+        </div>
+
+        <button
+          type="submit"
+          class="btn btn-primary btn-lg w-100 mb-3"
+          [disabled]="!registerForm.valid"
+        >
+          Registrarse
+        </button>
+
+        <p class="text-center">
+          ¿Ya tienes cuenta?
+          <a href="javascript:void(0)" (click)="toggleTab()" class="link-primary fw-bold">
+            Inicia sesión aquí
+          </a>
+        </p>
+      </form>
+    </div>
+  </div>
+</div>

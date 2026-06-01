@@ -19,22 +19,124 @@
       </thead>
 
       <tbody>
-        <tr>
-          <td>1</td>
-          <td>Coca Cola</td>
-          <td>Bebida</td>
-          <td>Buenos Aires</td>
-          <td>$2</td>
+        <tr *ngFor="let producto of productos">
+          <td>{{ producto.id }}</td>
+          <td>{{ producto.nombre }}</td>
+          <td>{{ producto.categoria }}</td>
+          <td>{{ producto.ubicacion }}</td>
+          <td>${{ producto.precio }}</td>
           <td>
-            <button class="btn btn-warning btn-sm me-2">
-              <img src="/images/edit.png" alt="Editar" class="img-fluid" />
+            <button class="btn btn-warning btn-sm me-2" (click)="abrirEditModal(producto)">
+              <img src="/images/edit.png" alt="Editar" width="32" height="32" />
             </button>
-            <button class="btn btn-danger btn-sm">
-              <img src="/images/delete.png" alt="Eliminar" class="img-fluid" />
+            <button class="btn btn-danger btn-sm" (click)="abrirDeleteModal(producto)">
+              <img src="/images/delete.png" alt="Eliminar" width="32" height="32" />
             </button>
           </td>
         </tr>
       </tbody>
     </table>
+  </div>
+</div>
+
+<!-- Modal de Editar -->
+<div class="modal-backdrop" *ngIf="showEditModal"></div>
+<div class="modal modal-edit" *ngIf="showEditModal">
+  <div class="modal-content">
+    <div class="modal-header">
+      <h5 class="modal-title">✏️ Editar Producto</h5>
+      <button type="button" class="btn-close" (click)="cerrarEditModal()"></button>
+    </div>
+    <div class="modal-body">
+      <form [formGroup]="editForm">
+        <div class="mb-3">
+          <label for="edit-nombre" class="form-label fw-bold">Nombre</label>
+          <input type="text" class="form-control" id="edit-nombre" formControlName="nombre" />
+          <div
+            class="text-danger"
+            *ngIf="editForm.get('nombre')?.invalid && editForm.get('nombre')?.touched"
+          >
+            El nombre es requerido (mín. 3 caracteres)
+          </div>
+        </div>
+
+        <div class="mb-3">
+          <label for="edit-categoria" class="form-label fw-bold">Categoría</label>
+          <input type="text" class="form-control" id="edit-categoria" formControlName="categoria" />
+          <div
+            class="text-danger"
+            *ngIf="editForm.get('categoria')?.invalid && editForm.get('categoria')?.touched"
+          >
+            La categoría es requerida
+          </div>
+        </div>
+
+        <div class="mb-3">
+          <label for="edit-ubicacion" class="form-label fw-bold">Ubicación</label>
+          <input type="text" class="form-control" id="edit-ubicacion" formControlName="ubicacion" />
+          <div
+            class="text-danger"
+            *ngIf="editForm.get('ubicacion')?.invalid && editForm.get('ubicacion')?.touched"
+          >
+            La ubicación es requerida
+          </div>
+        </div>
+
+        <div class="mb-3">
+          <label for="edit-precio" class="form-label fw-bold">Precio</label>
+          <input
+            type="number"
+            class="form-control"
+            id="edit-precio"
+            formControlName="precio"
+            step="0.01"
+          />
+          <div
+            class="text-danger"
+            *ngIf="editForm.get('precio')?.invalid && editForm.get('precio')?.touched"
+          >
+            El precio es requerido y debe ser mayor a 0
+          </div>
+        </div>
+      </form>
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-secondary" (click)="cerrarEditModal()">Cancelar</button>
+      <button
+        type="button"
+        class="btn btn-success"
+        (click)="guardarEdicion()"
+        [disabled]="!editForm.valid"
+      >
+        Guardar Cambios
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- Modal de Confirmar Eliminación -->
+<div class="modal-backdrop" *ngIf="showDeleteModal"></div>
+<div class="modal modal-delete" *ngIf="showDeleteModal">
+  <div class="modal-content">
+    <div class="modal-header">
+      <h5 class="modal-title">⚠️ Confirmar Eliminación</h5>
+      <button type="button" class="btn-close" (click)="cerrarDeleteModal()"></button>
+    </div>
+    <div class="modal-body">
+      <p>
+        ¿Estás seguro que deseas eliminar el producto
+        <strong>{{ productoSeleccionado?.nombre }}</strong
+        >?
+      </p>
+      <p class="text-muted">Esta acción no se puede deshacer.</p>
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-secondary" (click)="cerrarDeleteModal()">
+        Cancelar
+      </button>
+      <button type="button" class="btn btn-danger" (click)="confirmarEliminar()">
+        Sí, Eliminar
+      </button>
+    </div>
   </div>
 </div>
