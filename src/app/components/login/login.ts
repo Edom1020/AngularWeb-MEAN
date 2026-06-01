@@ -95,23 +95,36 @@ export class LoginComponent {
   }
 
   login() {
-    if (this.loginForm.valid) {
-      this.productoService.login(this.loginForm.value).subscribe({
-        next: () => {
-          // ✅ Cookie HttpOnly enviada automáticamente
-          this.router.navigate(['/listar-productos']);
-        },
-        error: () => {
-          alert('Credenciales incorrectas');
-        }
-      });
-    }
+  if (this.loginForm.valid) {
+    const datosBackend = {
+      correo: this.loginForm.value.email,
+      contrasena: this.loginForm.value.password
+    };
+
+    this.productoService.login(datosBackend).subscribe({
+      next: () => {
+        this.router.navigate(['/listar-productos']);
+      },
+      error: () => {
+        alert('Credenciales incorrectas');
+      }
+    });
   }
+}
 
   register() {
   if (this.registerForm.valid) {
     const { confirmPassword, ...datos } = this.registerForm.value;
-    this.productoService.register(datos).subscribe({
+    
+    // Mapear campos al formato que espera el backend
+    const datosBackend = {
+      nombreCompleto: datos.nombre,
+      correo: datos.email,
+      contrasena: datos.password,
+      confirmarContrasena: confirmPassword
+    };
+
+    this.productoService.register(datosBackend).subscribe({
       next: () => {
         alert('¡Cuenta creada! Ahora inicia sesión.');
         this.toggleTab();
