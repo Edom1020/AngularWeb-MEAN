@@ -27,6 +27,9 @@ connectDB();
 // Helmet - Cabeceras seguras
 app.use(helmet(helmetConfig));
 
+// Preflight OPTIONS
+app.options('*', cors(corsOptions));
+
 // CORS - Configuración segura con whitelist
 app.use(cors(corsOptions));
 

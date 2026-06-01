@@ -7,8 +7,8 @@ const WHITELIST = [
   'http://localhost:4200',        // Angular local
   'http://localhost:3000',        // Backend local
   'http://localhost:3001',        // Alternativa local
-  'https://techstore.vercel.app', // Frontend en Vercel
-  'https://techstore-api.render.com', // Backend en Render
+  'https://angular-web-mean.vercel.app', // Frontend en Vercel
+  'https://techstore-backend-9urc.onrender.com', // Backend en Render
 ];
 
 // En producción, agregar orígenes reales
