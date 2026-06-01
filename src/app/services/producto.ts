@@ -43,6 +43,6 @@ export class ProductoService {
 
   // Register - Establece la HttpOnly Cookie
   register(datos: any) {
-    return this.http.post(`${this.apiUrl}/auth/register`, datos, this.httpOptions);
+    return this.http.post(`${this.apiUrl}/auth/registro`, datos, this.httpOptions);
   }
 }
