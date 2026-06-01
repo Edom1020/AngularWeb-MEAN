@@ -111,6 +111,7 @@
               id="register-password"
               placeholder="••••••••"
               formControlName="password"
+              (input)="updatePasswordRequirements()"
             />
             <img
               [src]="showRegisterPassword ? '/login/eyeicon.png' : '/login/eyeclosedicon.png'"
@@ -119,11 +120,20 @@
               (click)="toggleRegisterPassword()"
             />
           </div>
-          <div
-            class="text-danger"
-            *ngIf="registerForm.get('password')?.invalid && registerForm.get('password')?.touched"
-          >
-            La contraseña debe tener al menos 6 caracteres
+
+          <!-- Recuadro de requisitos de contraseña -->
+          <div class="password-requirements-box">
+            <p class="requirements-title">La contraseña debe tener:</p>
+            <ul class="requirements-list">
+              <li [ngClass]="{ met: passwordRequirements.minLength }">✓ Mínimo 12 caracteres</li>
+              <li [ngClass]="{ met: passwordRequirements.hasUpperCase }">
+                ✓ Al menos una mayúscula
+              </li>
+              <li [ngClass]="{ met: passwordRequirements.hasNumber }">✓ Al menos un número</li>
+              <li [ngClass]="{ met: passwordRequirements.hasSpecialChar }">
+                ✓ Al menos un carácter especial (!@#$%^&*)
+              </li>
+            </ul>
           </div>
         </div>
 

@@ -16,6 +16,14 @@ export class LoginComponent {
   showLoginPassword = false;
   showRegisterPassword = false;
   showConfirmPassword = false;
+  
+  // Requisitos de contraseña
+  passwordRequirements = {
+    minLength: false,
+    hasUpperCase: false,
+    hasNumber: false,
+    hasSpecialChar: false,
+  };
 
   constructor(private fb: FormBuilder, private router: Router) {
     this.loginForm = this.fb.group({
@@ -27,7 +35,7 @@ export class LoginComponent {
       {
         nombre: ['', [Validators.required, Validators.minLength(3)]],
         email: ['', [Validators.required, Validators.email]],
-        password: ['', [Validators.required, Validators.minLength(6)]],
+        password: ['', [Validators.required, this.passwordValidator.bind(this)]],
         confirmPassword: ['', [Validators.required]],
       },
       { validators: this.passwordMatchValidator }
@@ -43,6 +51,30 @@ export class LoginComponent {
     }
 
     return password.value === confirmPassword.value ? null : { passwordMismatch: true };
+  }
+
+  // Validador personalizado para la contraseña
+  passwordValidator(control: AbstractControl): ValidationErrors | null {
+    const password = control.value;
+    
+    this.passwordRequirements = {
+      minLength: password?.length >= 12 || false,
+      hasUpperCase: /[A-Z]/.test(password) || false,
+      hasNumber: /[0-9]/.test(password) || false,
+      hasSpecialChar: /[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]/.test(password) || false,
+    };
+
+    // Validar que todos los requisitos se cumplan
+    const allRequirementsMet = Object.values(this.passwordRequirements).every(req => req);
+    
+    return allRequirementsMet ? null : { passwordRequirements: true };
+  }
+
+  updatePasswordRequirements() {
+    const passwordControl = this.registerForm.get('password');
+    if (passwordControl) {
+      this.passwordValidator(passwordControl);
+    }
   }
 
   toggleTab() {
