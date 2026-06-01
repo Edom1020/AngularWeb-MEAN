@@ -8,13 +8,13 @@ export class ProductoService {
   private http = inject(HttpClient);
   private apiUrl = 'https://techstore-backend-9urc.onrender.com/api';
 
-  private getAuthHeaders() {
-    const token = localStorage.getItem('token');
-    return {
-      withCredentials: true,
-      headers: { Authorization: `Bearer ${token}` }
-    };
-  }
+ private getAuthHeaders() {
+  const token = typeof window !== 'undefined' ? localStorage.getItem('token') : null;
+  return {
+    withCredentials: true,
+    headers: { Authorization: `Bearer ${token}` }
+  };
+}
 
   getProductos() {
     return this.http.get(`${this.apiUrl}/productos`, this.getAuthHeaders());
