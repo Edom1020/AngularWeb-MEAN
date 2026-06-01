@@ -5,9 +5,10 @@ import { LoginComponent } from './components/login/login';
 
 export const routes: Routes = [
     { path: 'login', component: LoginComponent },
-    { path: '', component: ListarProductosComponent },
+    { path: '', redirectTo: 'login', pathMatch: 'full' },
+    { path: 'listar-productos', component: ListarProductosComponent },
     { path: 'crear-producto', component: CrearProductoComponent },
     { path: 'editar-producto/:id', component: CrearProductoComponent },
-    { path: '**', redirectTo: '', pathMatch: 'full' }
+    { path: '**', redirectTo: 'login', pathMatch: 'full' }
 ];
 

@@ -99,7 +99,7 @@ export class LoginComponent {
       this.productoService.login(this.loginForm.value).subscribe({
         next: () => {
           // ✅ Cookie HttpOnly enviada automáticamente
-          this.router.navigate(['/']);
+          this.router.navigate(['/listar-productos']);
         },
         error: () => {
           alert('Credenciales incorrectas');
