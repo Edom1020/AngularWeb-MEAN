@@ -130,3 +130,21 @@ exports.obtenerPerfil = catchAsync(async (req, res, next) => {
     }
   });
 });
+
+
+// ─────────────────────────────────────────────
+// LOGOUT - LIMPIAR COOKIE HTTPONLY
+// ─────────────────────────────────────────────
+exports.logout = catchAsync(async (req, res, next) => {
+  res.clearCookie('token', {
+    httpOnly: true,
+    secure: process.env.NODE_ENV === 'production',
+    sameSite: 'Lax',
+    path: '/'
+  });
+
+  res.status(200).json({
+    ok: true,
+    mensaje: 'Sesión cerrada exitosamente'
+  });
+});
