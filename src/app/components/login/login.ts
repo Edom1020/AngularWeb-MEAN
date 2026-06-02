@@ -3,7 +3,7 @@ import { FormGroup, FormBuilder, Validators, ReactiveFormsModule, AbstractContro
 import { NgIf, NgClass } from '@angular/common';
 import { Router } from '@angular/router';
 import { ProductoService } from '../../services/producto';
-import { console } from 'node:inspector/promises';
+
 
 @Component({
   selector: 'app-login',
