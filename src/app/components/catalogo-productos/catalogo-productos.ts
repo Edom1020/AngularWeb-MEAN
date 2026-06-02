@@ -24,9 +24,12 @@ export class CatalogoProductosComponent implements OnInit {
   obtenerProductos() {
     this.productoService.getProductos().subscribe({
       next: (data: any) => {
+        console.log('data completa:', data);
         this.productos = data.productos;
+        console.log('productos asignados:', this.productos.length);
       },
-      error: () => {
+      error: (err) => {
+        console.log('error:', err);
         this.toastr.error('No se pudo cargar el catálogo', 'Error');
       }
     });
