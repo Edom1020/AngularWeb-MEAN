@@ -24,3 +24,7 @@
     right: 10px;
     font-size: 1.1rem;
 }
+
+.text-success.fw-bold {
+    color: #fff !important;
+}
