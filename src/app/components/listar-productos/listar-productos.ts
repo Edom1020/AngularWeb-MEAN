@@ -39,7 +39,8 @@ export class ListarProductosComponent implements OnInit {
   this.cargarProductos();
   }
 
-  cargarProductos() {
+ cargarProductos() {
+  console.log('Cargando productos...'); // ← agregar aquí
   this.productoService.getProductos().subscribe({
     next: (data: any) => {
       console.log('Productos:', data);
