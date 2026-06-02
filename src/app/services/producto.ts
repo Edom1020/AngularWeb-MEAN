@@ -17,11 +17,11 @@ export class ProductoService {
 }
 
   getProductos() {
-    return this.http.get(`${this.apiUrl}/productos`, this.getAuthHeaders());
+    return this.http.get(`${this.apiUrl}/productos`);
   }
 
   getProducto(id: string) {
-    return this.http.get(`${this.apiUrl}/productos/${id}`, this.getAuthHeaders());
+    return this.http.get(`${this.apiUrl}/productos/${id}`);
   }
 
   crearProducto(producto: any) {
