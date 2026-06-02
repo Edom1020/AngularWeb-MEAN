@@ -1,4 +1,5 @@
 
+
 export class Producto {
     _id?: number;
     nombre: string;
