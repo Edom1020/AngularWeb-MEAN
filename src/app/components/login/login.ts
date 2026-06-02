@@ -106,7 +106,7 @@ export class LoginComponent {
       next: (res: any) => {
         console.log('Respuesta del backend:', res);
         localStorage.setItem('token', res.token); // Guardar token si es necesario
-        this.router.navigate(['/listar-productos']);
+        this.router.navigate(['/catalogo']);
       },
       error: () => {
         alert('Credenciales incorrectas');

@@ -26,6 +26,7 @@ export class CrearProductoComponent{
       categoria: ['', Validators.required],
       ubicacion: ['', Validators.required],
       precio: ['', Validators.required],
+      imagen: [''],
     });
   }
 
@@ -36,6 +37,7 @@ agregarProducto() {
       categoria: this.productoForm.get('categoria')?.value,
       ubicacion: this.productoForm.get('ubicacion')?.value,
       precio: this.productoForm.get('precio')?.value,
+      imagen: this.productoForm.get('imagen')?.value,
     };
 
     this.productoService.crearProducto(nuevoProducto).subscribe({
@@ -53,5 +55,3 @@ agregarProducto() {
 
   
 }
-
-
