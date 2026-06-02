@@ -120,3 +120,10 @@
   color: #fff;
   transition: background-color 0.3s ease, border-color 0.3s ease;
 }
+
+.btn.btn-outline-info.btn-sm.me-2{
+  background-color: #3883f5;
+  border-color: #000000;
+  color: #fff;
+  transition: background-color 0.3s ease, border-color 0.3s ease;
+}
