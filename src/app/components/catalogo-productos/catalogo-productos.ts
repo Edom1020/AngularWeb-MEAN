@@ -1,8 +1,9 @@
-import { Component, OnInit, inject } from '@angular/core';
+import { Component, OnInit, inject, ChangeDetectorRef} from '@angular/core';
 import { NgIf, NgFor, CurrencyPipe } from '@angular/common';
 import { RouterLink, Router } from '@angular/router';
 import { ProductoService } from '../../services/producto';
 import { ToastrService } from 'ngx-toastr';
+
 
 @Component({
   selector: 'app-catalogo-productos',
@@ -16,6 +17,7 @@ export class CatalogoProductosComponent implements OnInit {
   private productoService = inject(ProductoService);
   private toastr = inject(ToastrService);
   private router = inject(Router);
+  private cdr = inject(ChangeDetectorRef);
 
   ngOnInit() {
     this.obtenerProductos();
@@ -25,7 +27,8 @@ export class CatalogoProductosComponent implements OnInit {
     this.productoService.getProductos().subscribe({
       next: (data: any) => {
         console.log('data completa:', data);
-        this.productos = data.productos;
+        this.productos = data.productos || [];
+        this.cdr.detectChanges();
         console.log('productos asignados:', this.productos.length);
       },
       error: (err) => {
