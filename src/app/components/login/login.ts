@@ -3,6 +3,7 @@ import { FormGroup, FormBuilder, Validators, ReactiveFormsModule, AbstractContro
 import { NgIf, NgClass } from '@angular/common';
 import { Router } from '@angular/router';
 import { ProductoService } from '../../services/producto';
+import { console } from 'node:inspector/promises';
 
 @Component({
   selector: 'app-login',
@@ -102,7 +103,9 @@ export class LoginComponent {
     };
 
     this.productoService.login(datosBackend).subscribe({
-      next: () => {
+      next: (res: any) => {
+        console.log('Respuesta del backend:', res);
+        localStorage.setItem('token', res.token); // Guardar token si es necesario
         this.router.navigate(['/listar-productos']);
       },
       error: () => {
