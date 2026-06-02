@@ -6,6 +6,7 @@ import { NgIf, NgFor } from '@angular/common';
 //Nuevos imports
 import { ProductoService } from '../../services/producto';
 import { ToastrService } from 'ngx-toastr';
+import { error } from 'console';
 
 interface Producto {
   _id?: string;
@@ -41,9 +42,11 @@ export class ListarProductosComponent implements OnInit {
   cargarProductos() {
   this.productoService.getProductos().subscribe({
     next: (data: any) => {
+      console.log('Productos:', data);
       this.productos = data.productos;
     },
-    error: () => {
+    error: (error: any) => {
+      console.log('Error:', error);
       this.toastr.error('Error al cargar productos', 'Error');
     }
   });
