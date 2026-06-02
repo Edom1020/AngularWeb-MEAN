@@ -1,5 +1,5 @@
 import { Component, OnInit, inject, ChangeDetectorRef} from '@angular/core';
-import { RouterLink } from '@angular/router';
+import { RouterLink, Router } from '@angular/router';
 import { FormGroup, FormBuilder, Validators, ReactiveFormsModule } from '@angular/forms';
 import { NgIf, NgFor } from '@angular/common';
 
@@ -30,6 +30,7 @@ export class ListarProductosComponent implements OnInit {
   productos: Producto[] = [];
   private productoService = inject(ProductoService);
   private toastr = inject(ToastrService);
+  private router = inject(Router);
   private cdr = inject(ChangeDetectorRef);
 
   editForm: FormGroup;
@@ -124,4 +125,10 @@ export class ListarProductosComponent implements OnInit {
     });
   }
 }
+
+  cerrarSesion() {
+    // agregar lógica para borrar tokens de localStorage si los hubiera
+    this.toastr.info('Has cerrado sesión correctamente', 'Sesión Finalizada');
+    this.router.navigate(['/login']);
+  }
 }
