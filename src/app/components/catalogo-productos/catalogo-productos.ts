@@ -43,4 +43,14 @@ export class CatalogoProductosComponent implements OnInit {
     this.toastr.info('Has salido del catálogo', 'Sesión Finalizada');
     this.router.navigate(['/login']);
   }
+
+  productoDetalle: any = null;
+
+verDetalles(producto: any) {
+  this.productoDetalle = producto;
+}
+
+cerrarDetalles() {
+  this.productoDetalle = null;
+}
 }
