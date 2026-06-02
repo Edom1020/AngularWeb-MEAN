@@ -45,7 +45,8 @@ const productoSchema = new mongoose.Schema(
     imagen: {
       type: String,
       required: false,
-      trim: true
+      trim: true,
+      default: ''
     }
   },
   {
