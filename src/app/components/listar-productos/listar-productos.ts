@@ -1,4 +1,4 @@
-import { Component, OnInit, inject } from '@angular/core';
+import { Component, OnInit, inject, ChangeDetectorRef} from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { FormGroup, FormBuilder, Validators, ReactiveFormsModule } from '@angular/forms';
 import { NgIf, NgFor } from '@angular/common';
@@ -7,6 +7,7 @@ import { NgIf, NgFor } from '@angular/common';
 import { ProductoService } from '../../services/producto';
 import { ToastrService } from 'ngx-toastr';
 import { error } from 'console';
+
 
 interface Producto {
   _id?: string;
@@ -29,6 +30,7 @@ export class ListarProductosComponent implements OnInit {
   productos: Producto[] = [];
   private productoService = inject(ProductoService);
   private toastr = inject(ToastrService);
+  private cdr = inject(ChangeDetectorRef);
 
   editForm: FormGroup;
   showEditModal = false;
@@ -45,6 +47,7 @@ export class ListarProductosComponent implements OnInit {
     next: (data: any) => {
       console.log('Productos:', data);
       this.productos = data.productos;
+      this.cdr.detectChanges();
     },
     error: (error: any) => {
       console.log('Error:', error);
