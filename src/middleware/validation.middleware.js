@@ -140,7 +140,12 @@ const validarProducto = [
   
   body('precio')
     .notEmpty().withMessage('El precio es obligatorio')
-    .isFloat({ min: 0 }).withMessage('El precio debe ser un número válido mayor o igual a 0')
+    .isFloat({ min: 0 }).withMessage('El precio debe ser un número válido mayor o igual a 0'),
+
+  body('imagen')
+    .optional()
+    .trim()
+    .custom(noContienePalabrasClaveXSS)
 ];
 
 // ─────────────────────────────────────────────

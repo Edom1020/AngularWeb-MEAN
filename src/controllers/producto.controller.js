@@ -34,13 +34,14 @@ exports.obtenerProductoPorId = catchAsync(async (req, res, next) => {
 // Body esperado: { nombre, categoria, ubicacion, precio }
 // ─────────────────────────────────────────────
 exports.crearProducto = catchAsync(async (req, res, next) => {
-  const { nombre, categoria, ubicacion, precio } = req.body;
+  const { nombre, categoria, ubicacion, precio, imagen } = req.body;
 
   const nuevoProducto = await Producto.create({
     nombre,
     categoria,
     ubicacion,
-    precio
+    precio,
+    imagen
   });
 
   res.status(201).json({
@@ -56,11 +57,11 @@ exports.crearProducto = catchAsync(async (req, res, next) => {
 // Body esperado: cualquier campo a modificar
 // ─────────────────────────────────────────────
 exports.actualizarProducto = catchAsync(async (req, res, next) => {
-  const { nombre, categoria, ubicacion, precio } = req.body;
+  const { nombre, categoria, ubicacion, precio, imagen } = req.body;
 
   const productoActualizado = await Producto.findByIdAndUpdate(
     req.params.id,
-    { nombre, categoria, ubicacion, precio },
+    { nombre, categoria, ubicacion, precio, imagen },
     {
       new: true,
       runValidators: true
