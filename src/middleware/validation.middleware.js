@@ -145,6 +145,11 @@ const validarProducto = [
   body('imagen')
     .optional()
     .trim()
+    .custom(noContienePalabrasClaveXSS),
+
+  body('descripcion')
+    .optional()
+    .trim()
     .custom(noContienePalabrasClaveXSS)
 ];
 
