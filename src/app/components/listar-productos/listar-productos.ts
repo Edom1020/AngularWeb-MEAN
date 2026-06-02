@@ -16,6 +16,7 @@ interface Producto {
   categoria: string;
   ubicacion: string;
   precio: number;
+  imagen?: string;
 }
 
 @Component({
@@ -63,6 +64,7 @@ export class ListarProductosComponent implements OnInit {
       categoria: ['', Validators.required],
       ubicacion: ['', Validators.required],
       precio: ['', [Validators.required, Validators.min(0)]],
+      imagen: ['']
     });
   }
 
@@ -73,6 +75,7 @@ export class ListarProductosComponent implements OnInit {
       categoria: producto.categoria,
       ubicacion: producto.ubicacion,
       precio: producto.precio,
+      imagen: producto.imagen || ''
     });
     this.showEditModal = true;
   }

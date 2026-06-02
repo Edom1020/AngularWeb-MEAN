@@ -3,6 +3,7 @@
   <div class="d-flex justify-content-between align-items-center mb-3">
     <h2 class="titulo">Productos</h2>
     <div class="d-flex gap-2">
+      <button class="btn btn-secondary" routerLink="/catalogo">Volver</button>
       <button class="btn btn-primary" routerLink="/crear-producto">+ Nuevo Producto</button>
       <button class="btn btn-outline-danger" (click)="cerrarSesion()">Cerrar Sesión</button>
     </div>
@@ -29,6 +30,13 @@
           <td>{{ producto.ubicacion }}</td>
           <td>${{ producto.precio }}</td>
           <td>
+            <button
+              class="btn btn-outline-info btn-sm me-2"
+              (click)="abrirEditModal(producto)"
+              title="Gestionar Imagen"
+            >
+              📷
+            </button>
             <button class="btn btn-warning btn-sm me-2" (click)="abrirEditModal(producto)">
               <img src="/images/edit.png" alt="Editar" width="32" height="32" />
             </button>
@@ -100,6 +108,20 @@
           >
             El precio es requerido y debe ser mayor a 0
           </div>
+        </div>
+
+        <div class="mb-3">
+          <label for="edit-imagen" class="form-label fw-bold">URL de la Imagen</label>
+          <input
+            type="text"
+            class="form-control"
+            id="edit-imagen"
+            formControlName="imagen"
+            placeholder="https://ejemplo.com/foto.jpg"
+          />
+          <small class="text-muted"
+            >Pega el enlace de una imagen para que aparezca en el catálogo.</small
+          >
         </div>
       </form>
     </div>
