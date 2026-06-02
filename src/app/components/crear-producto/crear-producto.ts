@@ -42,7 +42,7 @@ agregarProducto() {
       next: () => {
         this.toastr.success('¡Producto creado exitosamente!', 'Éxito');
         this.productoForm.reset();
-        this.router.navigate(['/']);
+        this.router.navigate(['/listar-productos']);
       },
       error: () => {
         this.toastr.error('Error al crear producto', 'Error');

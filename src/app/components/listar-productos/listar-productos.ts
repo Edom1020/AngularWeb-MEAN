@@ -41,7 +41,7 @@ export class ListarProductosComponent implements OnInit {
   cargarProductos() {
   this.productoService.getProductos().subscribe({
     next: (data: any) => {
-      this.productos = data;
+      this.productos = data.productos;
     },
     error: () => {
       this.toastr.error('Error al cargar productos', 'Error');
