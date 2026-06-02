@@ -31,20 +31,30 @@
 
             <div class="mb-3">
               <label for="categoria" class="form-label fw-bold">Categoría</label>
-              <input
-                type="text"
+              <select
                 class="form-control form-control-lg"
                 id="categoria"
-                placeholder="Ej: Computadores"
                 formControlName="categoria"
-              />
+              >
+                <option value="">-- Selecciona una categoría --</option>
+                <option value="Smartphones">Smartphones</option>
+                <option value="Laptops">Laptops</option>
+                <option value="Tablets">Tablets</option>
+                <option value="Accesorios">Accesorios</option>
+                <option value="Computadores de Escritorio">Computadores de Escritorio</option>
+                <option value="Audio">Audio</option>
+                <option value="Televisores">Televisores</option>
+                <option value="Cámaras">Cámaras</option>
+                <option value="Wearables">Wearables</option>
+                <option value="Otro">Otro</option>
+              </select>
               <div
                 class="text-danger"
                 *ngIf="
                   productoForm.get('categoria')?.invalid && productoForm.get('categoria')?.touched
                 "
               >
-                Debes llenar este campo
+                Debes seleccionar una categoría
               </div>
             </div>
 
