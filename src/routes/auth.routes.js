@@ -38,3 +38,5 @@ router.get('/perfil', authMiddleware.verificarToken, authController.obtenerPerfi
 router.post('/logout', authMiddleware.verificarToken, authController.logout);
 
 module.exports = router;
+
+
